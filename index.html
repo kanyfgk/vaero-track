@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VAERO Tracking</title>
+</head>
+<body style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;flex-direction:column">
+
+<h2>Tracking...</h2>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+
+  if(code){
+    window.location.href = "https://www.17track.net/en/track?nums=" + code;
+  } else {
+    document.body.innerHTML = "<h2>Kod bulunamadı</h2>";
+  }
+</script>
+
+</body>
+</html>
