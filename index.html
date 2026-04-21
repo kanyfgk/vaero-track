@@ -1,24 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VAERO Tracking</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f6f2;
+      color: #1f1f1f;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 40px 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .brand {
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #2b2b2b;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1.2;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 auto;
+      max-width: 320px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #666;
+    }
+
+    .loader {
+      margin: 28px auto 18px;
+      width: 100%;
+      max-width: 220px;
+      height: 6px;
+      background: #ece9e2;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loader::before {
+      content: "";
+      position: absolute;
+      left: -40%;
+      top: 0;
+      width: 40%;
+      height: 100%;
+      background: #2f3a4a;
+      border-radius: 999px;
+      animation: move 1.2s infinite ease-in-out;
+    }
+
+    @keyframes move {
+      0% { left: -40%; }
+      100% { left: 100%; }
+    }
+
+    .small {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #999;
+      letter-spacing: 0.04em;
+    }
+
+    .error {
+      color: #7a2d2d;
+    }
+  </style>
 </head>
-<body style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;flex-direction:column">
+<body>
+  <div class="card">
+    <div class="brand">VAERO</div>
+    <h1>Tracking your shipment</h1>
+    <p id="message">Please wait while we connect your tracking information.</p>
+    <div class="loader"></div>
+    <div class="small">Powered by VAERO</div>
+  </div>
 
-<h2>Tracking...</h2>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const message = document.getElementById("message");
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get("code");
-
-  if(code){
-    window.location.href = "https://www.17track.net/en/track?nums=" + code;
-  } else {
-    document.body.innerHTML = "<h2>Kod bulunamadı</h2>";
-  }
-</script>
-
+    if (code) {
+      setTimeout(() => {
+        window.location.href = "https://t.17track.net/en#nums=" + encodeURIComponent(code);
+      }, 1600);
+    } else {
+      message.textContent = "Tracking code not found.";
+      message.classList.add("error");
+    }
+  </script>
 </body>
 </html>
- 
