@@ -1,167 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VAERO Tracking</title>
-  <style>
-    * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAERO Tracking</title>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      font-family: Arial, sans-serif;
-      background: #f6f4ee;
-      color: #1f1f1f;
-    }
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f6f4ee;
+    font-family: Arial, sans-serif;
+  }
 
-    .card {
-      width: 100%;
-      max-width: 460px;
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 36px 28px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
-      text-align: center;
-    }
+  .card {
+    width: 90%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
 
-    .brand {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.28em;
-      margin-bottom: 18px;
-      color: #2b2b2b;
-    }
+  .brand {
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: 30px;
-      line-height: 1.2;
-      font-weight: 600;
-    }
+  h1 {
+    margin: 0 0 10px;
+  }
 
-    p {
-      margin: 0 auto 24px;
-      max-width: 320px;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #666;
-    }
+  p {
+    color: #777;
+    margin-bottom: 20px;
+  }
 
-    .form {
-      display: flex;
-      gap: 10px;
-      flex-direction: column;
-    }
+  input {
+    width: 100%;
+    height: 50px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding: 0 12px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
 
-    input {
-      width: 100%;
-      height: 54px;
-      border: 1px solid #ddd8cf;
-      border-radius: 14px;
-      padding: 0 16px;
-      font-size: 15px;
-      outline: none;
-      background: #fff;
-      color: #222;
-    }
+  button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 12px;
+    background: #2f3a4a;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
-    input:focus {
-      border-color: #8a8a8a;
-    }
+  button:hover {
+    opacity: 0.95;
+  }
 
-    button {
-      width: 100%;
-      height: 54px;
-      border: none;
-      border-radius: 14px;
-      background: #2f3a4a;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.96;
-    }
-
-    .small {
-      margin-top: 16px;
-      font-size: 12px;
-      color: #9a9a9a;
-      letter-spacing: 0.03em;
-    }
-
-    .error {
-      margin-top: 14px;
-      font-size: 14px;
-      color: #8a2d2d;
-      display: none;
-    }
-
-    @media (min-width: 640px) {
-      .form {
-        flex-direction: row;
-      }
-
-      input {
-        flex: 1;
-      }
-
-      button {
-        width: 140px;
-      }
-    }
-  </style>
+  .loading {
+    display: none;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+</style>
 </head>
+
 <body>
-  <div class="card">
-    <div class="brand">VAERO</div>
-    <h1>Track your shipment</h1>
-    <p>Enter your tracking number to continue to the delivery status page.</p>
 
-    <div class="form">
-      <input
-        id="trackingInput"
-        type="text"
-        placeholder="Enter tracking number"
-      />
-      <button id="trackingBtn">Track</button>
-    </div>
+<div class="card">
+  <div class="brand">VAERO</div>
+  <h1>Track your shipment</h1>
+  <p>Enter your tracking number</p>
 
-    <div id="errorText" class="error">Please enter a tracking number.</div>
-    <div class="small">Powered by VAERO</div>
+  <input id="codeInput" placeholder="Enter tracking number">
+  <button onclick="track()">Track</button>
+
+  <div id="loadingText" class="loading">
+    Tracking information loading...
   </div>
+</div>
 
-  <script>
-    const input = document.getElementById("trackingInput");
-    const button = document.getElementById("trackingBtn");
-    const errorText = document.getElementById("errorText");
+<script>
+function track() {
+  const code = document.getElementById("codeInput").value.trim();
+  const loading = document.getElementById("loadingText");
 
-    function goToTracking() {
-      const code = input.value.trim();
+  if (!code) {
+    alert("Tracking number required");
+    return;
+  }
 
-      if (!code) {
-        errorText.style.display = "block";
-        return;
-      }
+  loading.style.display = "block";
 
-      errorText.style.display = "none";
-      window.location.href = "https://t.17track.net/en#nums=" + encodeURIComponent(code);
-    }
+  setTimeout(() => {
+    window.location.href = "https://t.17track.net/en#nums=" + encodeURIComponent(code);
+  }, 1000);
+}
+</script>
 
-    button.addEventListener("click", goToTracking);
-
-    input.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        goToTracking();
-      }
-    });
-  </script>
 </body>
 </html>
