@@ -253,7 +253,6 @@ function sendEvent(eventName) {
   });
 }
 
-sendEvent("page_view");
 
 document.querySelector("input")?.addEventListener("focus", () => {
   sendEvent("input_focus");
@@ -265,6 +264,10 @@ document.querySelector("input")?.addEventListener("input", () => {
 
 document.querySelector("button")?.addEventListener("click", () => {
   sendEvent("tracking_submit");
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  sendEvent("page_view");
 });
 </script>
 </body>
