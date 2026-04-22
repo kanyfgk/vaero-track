@@ -12,7 +12,8 @@
       --text:#1f1f1f;
       --muted:#6b6b6b;
       --border:#e3ded4;
-      --accent:#2f3a4a;
+      --accent:#4f679d;
+      --accent-hover:#445a89;
     }
 
     *{box-sizing:border-box}
@@ -39,7 +40,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border:1px solid var(--border);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+      box-shadow:0 20px 40px rgba(0,0,0,0.06);
       text-align:center;
     }
 
@@ -102,8 +103,16 @@
     }
 
     button:hover{
+      background:var(--accent-hover);
       transform:translateY(-1px);
       box-shadow:0 8px 18px rgba(0,0,0,0.12);
+    }
+
+    button:disabled{
+      opacity:.7;
+      cursor:default;
+      transform:none;
+      box-shadow:none;
     }
 
     .small{
@@ -125,6 +134,7 @@
       inset:0;
       background:rgba(245,243,238,0.75);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display:none;
       align-items:center;
       justify-content:center;
@@ -159,7 +169,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <div class="card">
@@ -168,8 +177,14 @@
     <p>Takip numaranızı girin. Durum bilgisine yönlendirileceksiniz.</p>
 
     <div class="form">
-      <input id="trackingInput" placeholder="Takip numarası girin">
-      <button id="trackingBtn">İzle</button>
+      <input
+        id="trackingInput"
+        type="text"
+        inputmode="text"
+        autocomplete="off"
+        placeholder="Takip numarası girin"
+      />
+      <button id="trackingBtn" type="button">İzle</button>
     </div>
 
     <div id="errorText" class="error">Takip numarası giriniz.</div>
@@ -190,51 +205,84 @@
     const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1";
     const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
 
+    function cleanTrackingCode(value) {
+      return value.trim().replace(/\s+/g, "");
+    }
+
+    function build17TrackUrl(code) {
+      return https://www.17track.net/en#nums=${encodeURIComponent(code)};
+    }
+
     async function trackEvent(eventName, page, meta = {}) {
+      const payload = JSON.stringify({
+        event_name: eventName,
+        page: page,
+        meta: meta
+      });
+
+      const endpoint = ${SUPABASE_URL}/events;
+      const headers = {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": Bearer ${SUPABASE_KEY},
+        "Prefer": "return=minimal"
+      };
+
       try {
-        await fetch(${SUPABASE_URL}/events, {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: "application/json" });
+          navigator.sendBeacon(endpoint, blob);
+          return;
+        }
+
+        await fetch(endpoint, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": SUPABASE_KEY,
-            "Authorization": Bearer ${SUPABASE_KEY}
-          },
-          body: JSON.stringify({
-            event_name: eventName,
-            page: page,
-            meta: meta
-          })
+          headers,
+          body: payload,
+          keepalive: true
         });
       } catch (error) {
         console.log("Tracking error:", error);
       }
     }
 
-    function go(){
-      const code = input.value.trim();
+    async function go() {
+      const code = cleanTrackingCode(input.value);
 
-      if(!code){
+      if (!code) {
         errorText.style.display = "block";
+        input.focus();
         return;
       }
 
       errorText.style.display = "none";
       overlay.style.display = "flex";
+      btn.disabled = true;
 
-      trackEvent("tracking_submit", window.location.pathname, { code: code });
+      const targetUrl = build17TrackUrl(code);
+
+      trackEvent("tracking_submit", window.location.pathname, {
+        code: code,
+        target: targetUrl
+      });
 
       setTimeout(() => {
-        window.location.href = "https://t.17track.net/en#nums=" + encodeURIComponent(code);
-      }, 900);
+        window.location.assign(targetUrl);
+      }, 250);
     }
 
     btn.addEventListener("click", go);
 
     input.addEventListener("keydown", (e) => {
-      if(e.key === "Enter") go();
+      if (e.key === "Enter") {
+        e.preventDefault();
+        go();
+      }
     });
 
-    trackEvent("page_view", window.location.pathname);
+    trackEvent("page_view", window.location.pathname, {
+      source: "vaero_tracking_page"
+    });
   </script>
 
 </body>
