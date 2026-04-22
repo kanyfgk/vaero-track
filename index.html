@@ -1,236 +1,241 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>VAERO Takip</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAERO Takip</title>
 
-<style>
-  :root{
-    --bg:#f5f3ee;
-    --card:#ffffffcc; /* hafif cam hissi */
-    --text:#1f1f1f;
-    --muted:#6b6b6b;
-    --border:#e3ded4;
-    --accent:#2f3a4a;
-  }
+  <style>
+    :root{
+      --bg:#f5f3ee;
+      --card:#ffffffcc;
+      --text:#1f1f1f;
+      --muted:#6b6b6b;
+      --border:#e3ded4;
+      --accent:#2f3a4a;
+    }
 
-  *{box-sizing:border-box}
+    *{box-sizing:border-box}
 
-  body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,Arial,sans-serif;
-    color:var(--text);
-    background:
-      radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #f5f3ee 60%, #eee9df 100%);
-  }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #f5f3ee 60%, #eee9df 100%);
+    }
 
-  .card{
-    width:100%;
-    max-width:440px;
-    padding:34px 28px 26px;
-    border-radius:22px;
-    background:var(--card);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border:1px solid var(--border);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-    text-align:center;
-  }
+    .card{
+      width:100%;
+      max-width:440px;
+      padding:34px 28px 26px;
+      border-radius:22px;
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border:1px solid var(--border);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+      text-align:center;
+    }
 
-  .brand{
-    font-size:12px;
-    letter-spacing:.32em;
-    font-weight:700;
-    margin-bottom:18px;
-    color:#2a2a2a;
-  }
+    .brand{
+      font-size:12px;
+      letter-spacing:.32em;
+      font-weight:700;
+      margin-bottom:18px;
+      color:#2a2a2a;
+    }
 
-  h1{
-    margin:0 0 10px;
-    font-size:26px;
-    font-weight:600;
-    letter-spacing:-0.01em;
-  }
+    h1{
+      margin:0 0 10px;
+      font-size:26px;
+      font-weight:600;
+      letter-spacing:-0.01em;
+    }
 
-  p{
-    margin:0 auto 22px;
-    max-width:320px;
-    font-size:14px;
-    line-height:1.6;
-    color:var(--muted);
-  }
+    p{
+      margin:0 auto 22px;
+      max-width:320px;
+      font-size:14px;
+      line-height:1.6;
+      color:var(--muted);
+    }
 
-  .form{
-    display:flex;
-    gap:10px;
-    flex-direction:column;
-  }
+    .form{
+      display:flex;
+      gap:10px;
+      flex-direction:column;
+    }
 
-  input{
-    width:100%;
-    height:52px;
-    border-radius:14px;
-    border:1px solid var(--border);
-    padding:0 14px;
-    font-size:14px;
-    outline:none;
-    background:#fff;
-    transition:.2s;
-  }
+    input{
+      width:100%;
+      height:52px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      padding:0 14px;
+      font-size:14px;
+      outline:none;
+      background:#fff;
+      transition:.2s;
+    }
 
-  input:focus{
-    border-color:#bdb7aa;
-  }
+    input:focus{
+      border-color:#bdb7aa;
+    }
 
-  button{
-    width:100%;
-    height:52px;
-    border:none;
-    border-radius:14px;
-    background:var(--accent);
-    color:#fff;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.2s;
-  }
+    button{
+      width:100%;
+      height:52px;
+      border:none;
+      border-radius:14px;
+      background:var(--accent);
+      color:#fff;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s;
+    }
 
-  button:hover{
-    transform:translateY(-1px);
-    box-shadow:0 8px 18px rgba(0,0,0,0.12);
-  }
+    button:hover{
+      transform:translateY(-1px);
+      box-shadow:0 8px 18px rgba(0,0,0,0.12);
+    }
 
-  .small{
-    margin-top:14px;
-    font-size:12px;
-    color:#9a9a9a;
-    letter-spacing:.03em;
-  }
+    .small{
+      margin-top:14px;
+      font-size:12px;
+      color:#9a9a9a;
+      letter-spacing:.03em;
+    }
 
-  .error{
-    display:none;
-    margin-top:10px;
-    font-size:13px;
-    color:#8a2d2d;
-  }
+    .error{
+      display:none;
+      margin-top:10px;
+      font-size:13px;
+      color:#8a2d2d;
+    }
 
-  /* loading overlay */
-  .overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(245,243,238,0.75);
-    backdrop-filter: blur(8px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    z-index:10;
-  }
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(245,243,238,0.75);
+      backdrop-filter: blur(8px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      z-index:10;
+    }
 
-  .spinner{
-    width:28px;
-    height:28px;
-    border:3px solid #ddd;
-    border-top-color:#2f3a4a;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin-bottom:14px;
-  }
+    .spinner{
+      width:28px;
+      height:28px;
+      border:3px solid #ddd;
+      border-top-color:#2f3a4a;
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      margin-bottom:14px;
+    }
 
-  @keyframes spin{
-    to{transform:rotate(360deg)}
-  }
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
 
-  .loading-text{
-    font-size:14px;
-    color:#555;
-    letter-spacing:.02em;
-  }
+    .loading-text{
+      font-size:14px;
+      color:#555;
+      letter-spacing:.02em;
+    }
 
-  @media(min-width:640px){
-    .form{flex-direction:row}
-    input{flex:1}
-    button{width:140px}
-  }
-</style>
+    @media(min-width:640px){
+      .form{flex-direction:row}
+      input{flex:1}
+      button{width:140px}
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
-  <div class="brand">VAERO</div>
-  <h1>Gönderinizi takip edin</h1>
-  <p>Takip numaranızı girin. Durum bilgisine yönlendirileceksiniz.</p>
+  <div class="card">
+    <div class="brand">VAERO</div>
+    <h1>Gönderinizi takip edin</h1>
+    <p>Takip numaranızı girin. Durum bilgisine yönlendirileceksiniz.</p>
 
-  <div class="form">
-    <input id="trackingInput" placeholder="Takip numarası girin">
-    <button id="trackingBtn">İzle</button>
+    <div class="form">
+      <input id="trackingInput" placeholder="Takip numarası girin">
+      <button id="trackingBtn">İzle</button>
+    </div>
+
+    <div id="errorText" class="error">Takip numarası giriniz.</div>
+    <div class="small">VAERO • Personal Atmosphere System</div>
   </div>
 
-  <div id="errorText" class="error">Takip numarası giriniz.</div>
-  <div class="small">VAERO • Personal Atmosphere System</div>
-</div>
+  <div id="overlay" class="overlay">
+    <div class="spinner"></div>
+    <div class="loading-text">VAERO is connecting to carrier...</div>
+  </div>
 
-<!-- loading -->
-<div id="overlay" class="overlay">
-  <div class="spinner"></div>
-  <div class="loading-text">VAERO is connecting to carrier...</div>
-</div>
+  <script>
+    const input = document.getElementById("trackingInput");
+    const btn = document.getElementById("trackingBtn");
+    const errorText = document.getElementById("errorText");
+    const overlay = document.getElementById("overlay");
 
-<script>
-const input = document.getElementById("trackingInput");
-const btn = document.getElementById("trackingBtn");
-const errorText = document.getElementById("errorText");
-const overlay = document.getElementById("overlay");
+    const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1";
+    const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
 
-function go(){
-  const code = input.value.trim();
+    async function trackEvent(eventName, page, meta = {}) {
+      try {
+        await fetch(${SUPABASE_URL}/events, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_KEY,
+            "Authorization": Bearer ${SUPABASE_KEY}
+          },
+          body: JSON.stringify({
+            event_name: eventName,
+            page: page,
+            meta: meta
+          })
+        });
+      } catch (error) {
+        console.log("Tracking error:", error);
+      }
+    }
 
-  if(!code){
-    errorText.style.display = "block";
-    return;
-  }
+    function go(){
+      const code = input.value.trim();
 
-  errorText.style.display = "none";
-  overlay.style.display = "flex";
+      if(!code){
+        errorText.style.display = "block";
+        return;
+      }
 
-  setTimeout(()=>{
-    window.location.href = "https://t.17track.net/en#nums=" + encodeURIComponent(code);
-  }, 900);
-}
+      errorText.style.display = "none";
+      overlay.style.display = "flex";
 
-btn.addEventListener("click", go);
+      trackEvent("tracking_submit", window.location.pathname, { code: code });
 
-input.addEventListener("keydown", (e)=>{
-  if(e.key==="Enter") go();
-});
-const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1/";
-const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
+      setTimeout(() => {
+        window.location.href = "https://t.17track.net/en#nums=" + encodeURIComponent(code);
+      }, 900);
+    }
 
-async function trackEvent(eventName, page, meta = {}) {
-  await fetch(${SUPABASE_URL}/events, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_KEY,
-      "Authorization": `Bearer ${SUPABASE_KEY}`
-    },
-    body: JSON.stringify({
-      event_name: eventName,
-      page: page,
-      meta: meta
-    })
-  });
-}
+    btn.addEventListener("click", go);
 
-trackEvent("page_view", window.location.pathname);
-</script>
+    input.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") go();
+    });
+
+    trackEvent("page_view", window.location.pathname);
+  </script>
 
 </body>
 </html>
