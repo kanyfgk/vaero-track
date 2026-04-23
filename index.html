@@ -175,7 +175,7 @@ function trackEvent(name, meta = {}) {
     },
     body: JSON.stringify({
       event_name: name,
-      page: window.location.pathname,
+      page: window.location.href,
       meta: meta
     }),
     keepalive: true
