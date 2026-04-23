@@ -233,42 +233,6 @@ input.addEventListener("keydown", (e)=>{
   if(e.key==="Enter") go();
 });
 </script>
-<script>
-const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1/events";
-const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
 
-function sendEvent(eventName) {
-  fetch(SUPABASE_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_KEY,
-      "Authorization": "Bearer " + SUPABASE_KEY
-    },
-    body: JSON.stringify({
-      event_name: eventName,
-      page: window.location.pathname,
-      timestamp: new Date().toISOString()
-    })
-  });
-}
-
-
-document.querySelector("input")?.addEventListener("focus", () => {
-  sendEvent("input_focus");
-});
-
-document.querySelector("input")?.addEventListener("input", () => {
-  sendEvent("input_started");
-});
-
-document.querySelector("button")?.addEventListener("click", () => {
-  sendEvent("tracking_submit");
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-  sendEvent("page_view");
-});
-</script>
 </body>
 </html>
