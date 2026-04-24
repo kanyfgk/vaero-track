@@ -6,147 +6,123 @@
 <title>Gönderi Takibi</title>
 
 <style>
-  :root{
-    --bg:#f5f3ee;
-    --card:#ffffffcc;
-    --text:#1f1f1f;
-    --muted:#6b6b6b;
-    --border:#e3ded4;
-    --accent:#2f3a4a;
-  }
-
-  *{box-sizing:border-box}
-
-  body{
-    margin:0;
-    min-height:100vh;
+:root{
+  --bg:#f5f3ee;
+  --card:#ffffffcc;
+  --text:#1f1f1f;
+  --muted:#6b6b6b;
+  --border:#e3ded4;
+  --accent:#2f3a4a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,Arial,sans-serif;
+  color:var(--text);
+  background:radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #f5f3ee 60%, #eee9df 100%);
+}
+.card{
+  width:100%;
+  max-width:460px;
+  padding:34px 28px 26px;
+  border-radius:22px;
+  background:var(--card);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  box-shadow:0 20px 40px rgba(0,0,0,.06);
+  text-align:center;
+}
+.brand{
+  font-size:12px;
+  letter-spacing:.32em;
+  font-weight:700;
+  margin-bottom:18px;
+}
+h1{
+  margin:0 0 10px;
+  font-size:26px;
+  font-weight:600;
+}
+p{
+  margin:0 auto 18px;
+  font-size:14px;
+  line-height:1.6;
+  color:var(--muted);
+}
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+input, select{
+  width:100%;
+  height:52px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  padding:0 14px;
+  font-size:14px;
+  outline:none;
+  background:#fff;
+}
+button{
+  height:52px;
+  border:none;
+  border-radius:14px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+.note{
+  margin-top:12px;
+  font-size:12px;
+  line-height:1.5;
+  color:#8a8a8a;
+}
+.error{
+  display:none;
+  margin-top:8px;
+  font-size:13px;
+  color:#8a2d2d;
+}
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(245,243,238,.75);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:10;
+}
+.spinner{
+  width:28px;
+  height:28px;
+  border:3px solid #ddd;
+  border-top-color:#2f3a4a;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin-bottom:14px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{
+  font-size:14px;
+  color:#555;
+}
+@media(min-width:640px){
+  .row{
     display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,Arial,sans-serif;
-    color:var(--text);
-    background:radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #f5f3ee 60%, #eee9df 100%);
-  }
-
-  .card{
-    width:100%;
-    max-width:460px;
-    padding:34px 28px 26px;
-    border-radius:22px;
-    background:var(--card);
-    backdrop-filter:blur(10px);
-    border:1px solid var(--border);
-    box-shadow:0 20px 40px rgba(0,0,0,0.06);
-    text-align:center;
-  }
-
-  .brand{
-    font-size:12px;
-    letter-spacing:.32em;
-    font-weight:700;
-    margin-bottom:18px;
-  }
-
-  h1{
-    margin:0 0 10px;
-    font-size:26px;
-    font-weight:600;
-  }
-
-  p{
-    margin:0 auto 18px;
-    font-size:14px;
-    line-height:1.6;
-    color:var(--muted);
-  }
-
-  .form{
-    display:flex;
-    flex-direction:column;
     gap:10px;
   }
-
-  input, select{
-    width:100%;
-    height:52px;
-    border-radius:14px;
-    border:1px solid var(--border);
-    padding:0 14px;
-    font-size:14px;
-    outline:none;
-    background:#fff;
-  }
-
-  button{
-    height:52px;
-    border:none;
-    border-radius:14px;
-    background:var(--accent);
-    color:#fff;
-    font-weight:600;
-    cursor:pointer;
-  }
-
-  .note{
-    margin-top:12px;
-    font-size:12px;
-    line-height:1.5;
-    color:#8a8a8a;
-  }
-
-  .error{
-    display:none;
-    margin-top:8px;
-    font-size:13px;
-    color:#8a2d2d;
-  }
-
-  .overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(245,243,238,0.75);
-    backdrop-filter:blur(8px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    z-index:10;
-  }
-
-  .spinner{
-    width:28px;
-    height:28px;
-    border:3px solid #ddd;
-    border-top-color:#2f3a4a;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin-bottom:14px;
-  }
-
-  @keyframes spin{
-    to{transform:rotate(360deg)}
-  }
-
-  .loading-text{
-    font-size:14px;
-    color:#555;
-  }
-
-  @media(min-width:640px){
-    .row{
-      display:flex;
-      gap:10px;
-    }
-
-    .row input{
-      flex:1;
-    }
-
-    .row button{
-      width:150px;
-    }
-  }
+  .row input{flex:1}
+  .row button{width:150px}
+}
 </style>
 </head>
 
@@ -154,24 +130,38 @@
 
 <div class="card">
   <div class="brand">VAERO</div>
+
   <h1>Gönderinizi takip edin</h1>
   <p>Takip numaranızı girin. Kargo şirketini biliyorsanız seçin.</p>
 
   <div class="form">
     <select id="carrier">
       <option value="">Kargo şirketi — bilmiyorsanız boş bırakın</option>
-      <option value="china-post">China Post</option>
+      <option value="boxnow">BOX NOW</option>
       <option value="yunexpress">YunExpress</option>
-      <option value="4px">4PX</option>
+      <option value="china-post">China Post</option>
       <option value="cainiao">Cainiao</option>
       <option value="yanwen">Yanwen</option>
+      <option value="4px">4PX</option>
       <option value="dhl">DHL</option>
       <option value="fedex">FedEx</option>
       <option value="ups">UPS</option>
+      <option value="aramex">Aramex</option>
+      <option value="dpd">DPD</option>
+      <option value="gls">GLS</option>
+      <option value="royal-mail">Royal Mail</option>
+      <option value="postnl">PostNL</option>
+      <option value="deutsche-post">Deutsche Post</option>
+      <option value="ptt">PTT Kargo</option>
+      <option value="yurtici">Yurtiçi Kargo</option>
+      <option value="aras">Aras Kargo</option>
+      <option value="mng">MNG Kargo</option>
+      <option value="surat">Sürat Kargo</option>
+      <option value="other">Diğer</option>
     </select>
 
     <div class="row">
-      <input id="input" placeholder="Takip numarası girin">
+      <input id="input" placeholder="Takip numarası girin" />
       <button id="btn">Takip Et</button>
     </div>
   </div>
@@ -235,7 +225,7 @@ input.addEventListener("input", () => {
 
 carrier.addEventListener("change", () => {
   trackEvent("carrier_selected", {
-    carrier: carrier.value
+    carrier: carrier.value || "unknown"
   });
 });
 
@@ -246,6 +236,7 @@ setTimeout(() => {
 function build17TrackUrl(code, carrierValue) {
   return "https://t.17track.net/en#nums=" + encodeURIComponent(code);
 }
+
 function go(){
   const code = input.value.trim();
   const carrierValue = carrier.value;
