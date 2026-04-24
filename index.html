@@ -244,16 +244,8 @@ setTimeout(() => {
 }, 30000);
 
 function build17TrackUrl(code, carrierValue) {
-  if (carrierValue) {
-    return "https://t.17track.net/en#nums=" 
-      + encodeURIComponent(code) 
-      + "&fc=" 
-      + encodeURIComponent(carrierValue);
-  }
-
   return "https://t.17track.net/en#nums=" + encodeURIComponent(code);
 }
-
 function go(){
   const code = input.value.trim();
   const carrierValue = carrier.value;
