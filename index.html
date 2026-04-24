@@ -302,33 +302,29 @@
     }
 
     // Submit işlemi
-    async function onSubmitTracking() {
-        const trackingNumber = trackingInput.value.trim();
-        const selectedCarrier = carrierSelect.value;
+    function onSubmitTracking() {
+    const trackingNumber = trackingInput.value.trim();
+    const selectedCarrier = carrierSelect.value;
 
-        // Zorunlu alan kontrolü
-        if (!trackingNumber || !selectedCarrier) {
-            showError("Lütfen takip numarası ve kargo şirketi seçin.");
-            return;
-        }
-
-        // tracking_submit event'i gönder
-        await sendEvent('tracking_submit', {
-            code: trackingNumber,
-            carrier: selectedCarrier,
-            page: window.location.pathname
-        });
-
-        // Yönlendirme URL'si oluştur
-        const redirectUrl = buildTrackingUrl(selectedCarrier, trackingNumber);
-        if (redirectUrl) {
-            showLoading();
-            // Sayfayı yönlendir
-            window.location.href = redirectUrl;
-        } else {
-            showError("Geçersiz takip numarası veya kargo şirketi.");
-        }
+    if (!trackingNumber || !selectedCarrier) {
+        showError("Lütfen takip numarası ve kargo şirketi seçin.");
+        return;
     }
+
+    showLoading();
+
+    sendEvent('tracking_submit', {
+        code: trackingNumber,
+        carrier: selectedCarrier,
+        page: window.location.pathname
+    });
+
+    const redirectUrl = buildTrackingUrl(selectedCarrier, trackingNumber);
+
+    setTimeout(() => {
+        window.location.href = redirectUrl;
+    }, 500);
+}
 
     // ----- EVENTLER (supabase tracking) -----
     // page_view
