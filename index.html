@@ -1,362 +1,268 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>VAERO | Gönderi Takip</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VAERO | Gönderi Takip</title>
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #1a1a1a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 1.5rem;
-        }
-
-        /* Ana kart */
-        .track-card {
-            max-width: 520px;
-            width: 100%;
-            background-color: #ffffff;
-            border-radius: 32px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03), 0 5px 12px rgba(0, 0, 0, 0.05);
-            padding: 2rem 1.8rem 2.2rem;
-            transition: all 0.2s ease;
-        }
-
-        /* VAERO marka */
-        .brand {
-            text-align: center;
-            margin-bottom: 1.2rem;
-            font-weight: 500;
-            letter-spacing: -0.3px;
-        }
-        .brand h1 {
-            font-size: 1.8rem;
-            font-weight: 550;
-            font-family: 'Inter', sans-serif;
-            color: #000000;
-            letter-spacing: -0.5px;
-        }
-
-        /* Başlık açıklama */
-        .title-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .title-section h2 {
-            font-size: 1.6rem;
-            font-weight: 500;
-            color: #111;
-            margin-bottom: 0.35rem;
-        }
-        .title-section p {
-            font-size: 0.9rem;
-            color: #6c6c6e;
-            font-weight: 400;
-        }
-
-        /* Form alanları */
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #2c2c2e;
-            margin-bottom: 0.45rem;
-        }
-        input, select {
-            width: 100%;
-            padding: 0.9rem 1rem;
-            font-size: 0.95rem;
-            border: 1px solid #e4e4e7;
-            border-radius: 24px;
-            background-color: #fff;
-            transition: all 0.2s;
-            font-family: inherit;
-            outline: none;
-            color: #1d1d1f;
-        }
-        input:focus, select:focus {
-            border-color: #000000;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
-        }
-
-        /* buton */
-        .btn-track {
-            width: 100%;
-            background-color: #000000;
-            color: white;
-            padding: 0.9rem 1rem;
-            font-size: 1rem;
-            font-weight: 500;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-family: inherit;
-        }
-        .btn-track:hover {
-            opacity: 0.88;
-        }
-        .btn-track:active {
-            transform: scale(0.98);
-        }
-
-        .error-msg {
-            color: #d32f2f;
-            font-size: 0.8rem;
-            margin-top: 0.75rem;
-            text-align: center;
-        }
-
-        /* Loading overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.2s, opacity 0.2s;
-        }
-        .loading-content {
-            background-color: white;
-            padding: 1.6rem 2rem;
-            border-radius: 40px;
-            font-weight: 470;
-            font-size: 1rem;
-            color: #111;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-        .loading-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* footer ve ince detay */
-        .footer-note {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #8e8e93;
-            margin-top: 1.8rem;
-            border-top: 1px solid #f0f0f0;
-            padding-top: 1.3rem;
-        }
-
-        @media (max-width: 520px) {
-            .track-card {
-                padding: 1.6rem;
-            }
-            .title-section h2 {
-                font-size: 1.4rem;
-            }
-        }
-    </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f8f9fa;
+  color:#1a1a1a;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.card{
+  width:100%;
+  max-width:520px;
+  background:#fff;
+  border-radius:32px;
+  padding:32px 28px;
+  box-shadow:0 15px 35px rgba(0,0,0,.05);
+}
+.brand{
+  text-align:center;
+  font-size:30px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+h1{
+  text-align:center;
+  font-size:28px;
+  margin-bottom:8px;
+}
+p{
+  text-align:center;
+  color:#666;
+  font-size:14px;
+  margin-bottom:28px;
+}
+.group{
+  margin-bottom:18px;
+}
+label{
+  display:block;
+  font-size:14px;
+  margin-bottom:8px;
+  color:#333;
+}
+input,select{
+  width:100%;
+  height:54px;
+  border:1px solid #e0e0e0;
+  border-radius:24px;
+  padding:0 16px;
+  font-size:15px;
+  outline:none;
+  background:#fff;
+}
+input:focus,select:focus{
+  border-color:#111;
+}
+button{
+  width:100%;
+  height:54px;
+  border:none;
+  border-radius:28px;
+  background:#111;
+  color:#fff;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+}
+.error{
+  display:none;
+  text-align:center;
+  color:#c0392b;
+  font-size:13px;
+  margin-top:12px;
+}
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(255,255,255,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:9999;
+}
+.spinner{
+  width:34px;
+  height:34px;
+  border:4px solid #ddd;
+  border-top-color:#111;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin-bottom:14px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{
+  color:#333;
+  font-size:15px;
+}
+</style>
 </head>
+
 <body>
 
-<div class="track-card">
-    <div class="brand">
-        <h1>VAERO</h1>
-    </div>
-    <div class="title-section">
-        <h2>Gönderinizi takip edin</h2>
-        <p>Takip numaranızı girin ve kargo şirketini seçin.</p>
-    </div>
+<div class="card">
+  <div class="brand">VAERO</div>
 
-    <div class="input-group">
-        <label>Takip numarası</label>
-        <input type="text" id="trackingCode" placeholder="Örn: 123456789" autocomplete="off">
-    </div>
+  <h1>Gönderinizi takip edin</h1>
+  <p>Takip numaranızı girin ve kargo şirketini seçin.</p>
 
-    <div class="input-group">
-        <label>Kargo şirketi</label>
-        <select id="carrierSelect">
-            <option value="" disabled selected>Seçiniz</option>
-            <option value="BOX NOW">BOX NOW</option>
-            <option value="DHL">DHL</option>
-            <option value="FedEx">FedEx</option>
-            <option value="UPS">UPS</option>
-            <option value="Aramex">Aramex</option>
-            <option value="YunExpress">YunExpress</option>
-            <option value="China Post">China Post</option>
-            <option value="Cainiao">Cainiao</option>
-            <option value="Yanwen">Yanwen</option>
-            <option value="4PX">4PX</option>
-            <option value="DPD">DPD</option>
-            <option value="GLS">GLS</option>
-            <option value="PostNL">PostNL</option>
-            <option value="Royal Mail">Royal Mail</option>
-            <option value="PTT Kargo">PTT Kargo</option>
-            <option value="Diğer">Diğer</option>
-        </select>
-    </div>
+  <div class="group">
+    <label for="trackingCode">Takip numarası</label>
+    <input id="trackingCode" type="text" placeholder="Takip numarası girin" autocomplete="off">
+  </div>
 
-    <button class="btn-track" id="trackBtn">Takip Et</button>
-    <div id="errorMsg" class="error-msg"></div>
-    <div class="footer-note"></div>
+  <div class="group">
+    <label for="carrierSelect">Kargo şirketi</label>
+    <select id="carrierSelect">
+      <option value="">Seçiniz</option>
+      <option value="boxnow">BOX NOW</option>
+      <option value="dhl">DHL</option>
+      <option value="fedex">FedEx</option>
+      <option value="ups">UPS</option>
+      <option value="aramex">Aramex</option>
+      <option value="yunexpress">YunExpress</option>
+      <option value="china-post">China Post</option>
+      <option value="cainiao">Cainiao</option>
+      <option value="yanwen">Yanwen</option>
+      <option value="4px">4PX</option>
+      <option value="dpd">DPD</option>
+      <option value="gls">GLS</option>
+      <option value="postnl">PostNL</option>
+      <option value="royal-mail">Royal Mail</option>
+      <option value="ptt">PTT Kargo</option>
+      <option value="other">Diğer</option>
+    </select>
+  </div>
+
+  <button id="trackBtn" type="button">Takip Et</button>
+
+  <div id="errorMsg" class="error">Lütfen takip numarası ve kargo şirketi seçin.</div>
 </div>
 
-<div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-content">Gönderi bilgisine yönlendiriliyorsunuz...</div>
+<div id="overlay" class="overlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Gönderi bilgisine yönlendiriliyorsunuz...</div>
 </div>
 
 <script>
-    // ---------- SUPABASE KONFİG ----------
-    const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1";
-    const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
+const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1";
+const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
 
-    // ---------- DOM ELEMANLARI ----------
-    const trackingInput = document.getElementById('trackingCode');
-    const carrierSelect = document.getElementById('carrierSelect');
-    const trackBtn = document.getElementById('trackBtn');
-    const errorDiv = document.getElementById('errorMsg');
-    const loadingOverlay = document.getElementById('loadingOverlay');
+const trackingInput = document.getElementById("trackingCode");
+const carrierSelect = document.getElementById("carrierSelect");
+const trackBtn = document.getElementById("trackBtn");
+const errorMsg = document.getElementById("errorMsg");
+const overlay = document.getElementById("overlay");
 
-    // ---------- YARDIMCI FONKSİYONLAR ----------
-    function showError(msg) {
-        errorDiv.innerText = msg;
-        setTimeout(() => {
-            if (errorDiv.innerText === msg) errorDiv.innerText = '';
-        }, 3000);
-    }
-
-    function showLoading() {
-        loadingOverlay.classList.add('active');
-    }
-    function hideLoading() {
-        loadingOverlay.classList.remove('active');
-    }
-
-    // Rastgele oturum süresi eventi: 30 saniye kontrolü
-    let thirtySecTimer = null;
-    function start30sTimer() {
-        if (thirtySecTimer) clearTimeout(thirtySecTimer);
-        thirtySecTimer = setTimeout(() => {
-            sendEvent('time_30s', { page: window.location.pathname, trigger: '30_seconds_on_page' });
-        }, 30000);
-    }
-
-    // Event gönderme (Supabase)
-    async function sendEvent(eventName, metaObj = {}) {
-        try {
-            const payload = {
-                event_name: eventName,
-                page: window.location.pathname,
-                meta: metaObj
-            };
-            await fetch(SUPABASE_URL + '/events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': Bearer ${SUPABASE_KEY}
-                },
-                body: JSON.stringify(payload)
-            });
-        } catch (err) {
-            // Sessiz hata – kullanıcı deneyimini bozma
-            console.warn("Event gönderim hatası:", err);
-        }
-    }
-
-    // Kargo şirketine göre takip URL'si oluştur
-    function buildTrackingUrl(carrier, trackingNumber) {
-        const trimmed = trackingNumber.trim();
-        if (!trimmed) return null;
-        switch (carrier) {
-            case 'DHL':
-                return https://www.dhl.com/tr-en/home/tracking/tracking-express.html?submit=1&tracking-id=${encodeURIComponent(trimmed)};
-            case 'FedEx':
-                return https://www.fedex.com/fedextrack/?trknbr=${encodeURIComponent(trimmed)};
-            case 'UPS':
-                return https://www.ups.com/track?tracknum=${encodeURIComponent(trimmed)};
-            case 'Aramex':
-                return https://www.aramex.com/track/results?ShipmentNumber=${encodeURIComponent(trimmed)};
-            default:
-                // BOX NOW ve diğer tüm taşıyıcılar (17track)
-                return https://t.17track.net/en#nums=${encodeURIComponent(trimmed)};
-        }
-    }
-
-    // Submit işlemi
-    function onSubmitTracking() {
-    const trackingNumber = trackingInput.value.trim();
-    const selectedCarrier = carrierSelect.value;
-
-    if (!trackingNumber || !selectedCarrier) {
-        showError("Lütfen takip numarası ve kargo şirketi seçin.");
-        return;
-    }
-
-    showLoading();
-
-    sendEvent('tracking_submit', {
-        code: trackingNumber,
-        carrier: selectedCarrier,
-        page: window.location.pathname
-    });
-
-    const redirectUrl = buildTrackingUrl(selectedCarrier, trackingNumber);
-
-    setTimeout(() => {
-        window.location.href = redirectUrl;
-    }, 500);
+function sendEvent(eventName, meta = {}) {
+  fetch(SUPABASE_URL + "/events", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_KEY,
+      "Authorization": "Bearer " + SUPABASE_KEY
+    },
+    body: JSON.stringify({
+      event_name: eventName,
+      page: window.location.pathname,
+      meta: meta
+    }),
+    keepalive: true
+  }).catch(function(){});
 }
 
-    // ----- EVENTLER (supabase tracking) -----
-    // page_view
-    sendEvent('page_view', { page: window.location.pathname, timestamp: Date.now() });
+function buildTrackingUrl(carrier, code) {
+  const n = encodeURIComponent(code);
 
-    // input_focus (kullanıcı inputa tıkladığında)
-    trackingInput.addEventListener('focus', () => {
-        sendEvent('input_focus', { field: 'tracking_number', page: window.location.pathname });
-    });
-    // input_started (kullanıcı inputa yazmaya başladığında)
-    trackingInput.addEventListener('input', (e) => {
-        if (e.target.value.length === 1) {
-            sendEvent('input_started', { field: 'tracking_number', page: window.location.pathname });
-        }
-    });
+  if (carrier === "dhl") {
+    return "https://www.dhl.com/tr-en/home/tracking/tracking-express.html?submit=1&tracking-id=" + n;
+  }
 
-    // carrier_selected (dropdown seçildiğinde)
-    carrierSelect.addEventListener('change', () => {
-        if (carrierSelect.value) {
-            sendEvent('carrier_selected', { carrier: carrierSelect.value, page: window.location.pathname });
-        }
-    });
+  if (carrier === "fedex") {
+    return "https://www.fedex.com/fedextrack/?trknbr=" + n;
+  }
 
-    // Butona tıklama
-    trackBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        onSubmitTracking();
-    });
+  if (carrier === "ups") {
+    return "https://www.ups.com/track?tracknum=" + n;
+  }
 
-    // Sayfa yüklendikten sonra 30s timer başlat
-    start30sTimer();
-    // input focus ile timer yenilenmesine gerek yok, sadece sayfa kalıcılığı etkilemez.
+  if (carrier === "aramex") {
+    return "https://www.aramex.com/track/results?ShipmentNumber=" + n;
+  }
+
+  return "https://t.17track.net/en#nums=" + n;
+}
+
+function goToTracking() {
+  const code = trackingInput.value.trim();
+  const carrier = carrierSelect.value;
+
+  if (!code || !carrier) {
+    errorMsg.style.display = "block";
+    return;
+  }
+
+  errorMsg.style.display = "none";
+  overlay.style.display = "flex";
+
+  sendEvent("tracking_submit", {
+    code: code,
+    carrier: carrier
+  });
+
+  const targetUrl = buildTrackingUrl(carrier, code);
+
+  setTimeout(function(){
+    window.location.href = targetUrl;
+  }, 500);
+}
+
+sendEvent("page_view", {
+  referrer: document.referrer,
+  device: navigator.userAgent
+});
+
+let inputStarted = false;
+
+trackingInput.addEventListener("focus", function(){
+  sendEvent("input_focus");
+});
+
+trackingInput.addEventListener("input", function(){
+  if (!inputStarted) {
+    sendEvent("input_started");
+    inputStarted = true;
+  }
+});
+
+carrierSelect.addEventListener("change", function(){
+  sendEvent("carrier_selected", {
+    carrier: carrierSelect.value
+  });
+});
+
+trackBtn.addEventListener("click", goToTracking);
+
+trackingInput.addEventListener("keydown", function(e){
+  if (e.key === "Enter") {
+    goToTracking();
+  }
+});
+
+setTimeout(function(){
+  sendEvent("time_30s");
+}, 30000);
 </script>
 
 </body>
