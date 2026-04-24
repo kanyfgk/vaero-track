@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>VAERO Takip</title>
+<title>Gönderi Takibi</title>
 
 <style>
   :root{
@@ -26,19 +26,18 @@
     padding:24px;
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,Arial,sans-serif;
     color:var(--text);
-    background:
-      radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #f5f3ee 60%, #eee9df 100%);
+    background:radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #f5f3ee 60%, #eee9df 100%);
   }
 
   .card{
     width:100%;
-    max-width:440px;
+    max-width:460px;
     padding:34px 28px 26px;
     border-radius:22px;
     background:var(--card);
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(10px);
     border:1px solid var(--border);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    box-shadow:0 20px 40px rgba(0,0,0,0.06);
     text-align:center;
   }
 
@@ -58,22 +57,25 @@
   p{
     margin:0 auto 18px;
     font-size:14px;
+    line-height:1.6;
     color:var(--muted);
   }
 
   .form{
     display:flex;
-    gap:10px;
     flex-direction:column;
+    gap:10px;
   }
 
-  input{
+  input, select{
+    width:100%;
     height:52px;
     border-radius:14px;
     border:1px solid var(--border);
     padding:0 14px;
     font-size:14px;
     outline:none;
+    background:#fff;
   }
 
   button{
@@ -86,10 +88,11 @@
     cursor:pointer;
   }
 
-  .subtext{
-    margin-top:10px;
+  .note{
+    margin-top:12px;
     font-size:12px;
-    color:#9a9a9a;
+    line-height:1.5;
+    color:#8a8a8a;
   }
 
   .error{
@@ -99,12 +102,11 @@
     color:#8a2d2d;
   }
 
-  /* loading overlay */
   .overlay{
     position:fixed;
     inset:0;
     background:rgba(245,243,238,0.75);
-    backdrop-filter: blur(8px);
+    backdrop-filter:blur(8px);
     display:none;
     align-items:center;
     justify-content:center;
@@ -132,9 +134,18 @@
   }
 
   @media(min-width:640px){
-    .form{flex-direction:row}
-    input{flex:1}
-    button{width:140px}
+    .row{
+      display:flex;
+      gap:10px;
+    }
+
+    .row input{
+      flex:1;
+    }
+
+    .row button{
+      width:150px;
+    }
   }
 </style>
 </head>
@@ -144,26 +155,48 @@
 <div class="card">
   <div class="brand">VAERO</div>
   <h1>Gönderinizi takip edin</h1>
-  <p>Takip numaranızı girin. Durum bilgisine yönlendirileceksiniz.</p>
+  <p>Takip numaranızı girin. Kargo şirketini biliyorsanız seçin.</p>
 
   <div class="form">
-    <input id="input" placeholder="Takip numarası girin">
-    <button id="btn">İzle</button>
+    <select id="carrier">
+      <option value="">Kargo şirketi — bilmiyorsanız boş bırakın</option>
+      <option value="china-post">China Post</option>
+      <option value="yunexpress">YunExpress</option>
+      <option value="4px">4PX</option>
+      <option value="cainiao">Cainiao</option>
+      <option value="yanwen">Yanwen</option>
+      <option value="dhl">DHL</option>
+      <option value="fedex">FedEx</option>
+      <option value="ups">UPS</option>
+    </select>
+
+    <div class="row">
+      <input id="input" placeholder="Takip numarası girin">
+      <button id="btn">Takip Et</button>
+    </div>
   </div>
 
-  <div id="error" class="error">Takip numarası giriniz.</div>
-  <div class="subtext">VAERO • Personal Atmosphere System</div>
+  <div id="error" class="error">Lütfen takip numarası girin.</div>
+
+  <div class="note">
+    Sonuç görünmezse kargo şirketini seçerek tekrar deneyin.
+  </div>
 </div>
 
 <div id="overlay" class="overlay">
   <div class="spinner"></div>
-  <div class="loading-text">VAERO is connecting to carrier...</div>
+  <div class="loading-text">Gönderi bilgisine yönlendiriliyorsunuz...</div>
 </div>
 
 <script>
-// ================= SUPABASE =================
 const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
+
+const input = document.getElementById("input");
+const btn = document.getElementById("btn");
+const carrier = document.getElementById("carrier");
+const overlay = document.getElementById("overlay");
+const error = document.getElementById("error");
 
 function trackEvent(name, meta = {}) {
   fetch(SUPABASE_URL + "/events", {
@@ -179,58 +212,77 @@ function trackEvent(name, meta = {}) {
       meta: meta
     }),
     keepalive: true
-  }).catch(()=>{}); // hata olsa bile redirect'i bozmaz
+  }).catch(()=>{});
 }
 
-// ================= CUSTOMER SIGNALS =================
 trackEvent("page_view", {
   referrer: document.referrer,
   device: navigator.userAgent
 });
 
 let typed = false;
-document.getElementById("input").addEventListener("focus", ()=>{
+
+input.addEventListener("focus", () => {
   trackEvent("input_focus");
 });
 
-document.getElementById("input").addEventListener("input", ()=>{
-  if(!typed){
+input.addEventListener("input", () => {
+  if (!typed) {
     trackEvent("input_started");
     typed = true;
   }
 });
 
-setTimeout(()=> trackEvent("time_30s"), 30000);
+carrier.addEventListener("change", () => {
+  trackEvent("carrier_selected", {
+    carrier: carrier.value
+  });
+});
 
-// ================= MAIN =================
-const input = document.getElementById("input");
-const btn = document.getElementById("btn");
-const overlay = document.getElementById("overlay");
-const error = document.getElementById("error");
+setTimeout(() => {
+  trackEvent("time_30s");
+}, 30000);
+
+function build17TrackUrl(code, carrierValue) {
+  if (carrierValue) {
+    return "https://www.17track.net/en/track-details?nums=" 
+      + encodeURIComponent(code) 
+      + "&fc=" 
+      + encodeURIComponent(carrierValue);
+  }
+
+  return "https://www.17track.net/en#nums=" + encodeURIComponent(code);
+}
 
 function go(){
   const code = input.value.trim();
+  const carrierValue = carrier.value;
 
   if(!code){
     error.style.display = "block";
+    input.focus();
     return;
   }
 
   error.style.display = "none";
   overlay.style.display = "flex";
 
-  trackEvent("tracking_submit", { code: code });
+  trackEvent("tracking_submit", {
+    code: code,
+    carrier: carrierValue || "unknown"
+  });
 
-  setTimeout(()=>{
-    window.location.href =
-      "https://t.17track.net/en#nums=" + encodeURIComponent(code);
-  }, 900);
+  const targetUrl = build17TrackUrl(code, carrierValue);
+
+  setTimeout(() => {
+    window.location.href = targetUrl;
+  }, 700);
 }
 
 btn.addEventListener("click", go);
 
 input.addEventListener("keydown", (e)=>{
-  if(e.key==="Enter") go();
+  if(e.key === "Enter") go();
 });
 </script>
 
