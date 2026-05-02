@@ -379,7 +379,9 @@ trackingInput.addEventListener("input", checkForm);
 carrierSelect.addEventListener("change", checkForm);
 
 checkForm();
-
+window.onload = function(){
+  document.getElementById("trackingCode").focus();
+};
 </script>
 
 </body>
