@@ -368,6 +368,18 @@ if (btn) btn.innerText = t.button;
   document.getElementById("trackBtn").onclick = function(){
   goToTracking();
 };
+  function checkForm(){
+  const code = trackingInput.value.trim();
+  const carrier = carrierSelect.value;
+
+  trackBtn.disabled = !(code && carrier);
+}
+
+trackingInput.addEventListener("input", checkForm);
+carrierSelect.addEventListener("change", checkForm);
+
+checkForm();
+
 </script>
 
 </body>
