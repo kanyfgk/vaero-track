@@ -318,6 +318,31 @@ trackingInput.addEventListener("keydown", function(e){
 setTimeout(function(){
   sendEvent("time_30s");
 }, 30000);
+  setTimeout(() => {
+
+  // Tüm h1'leri bul ve değiştir
+  document.querySelectorAll("h1").forEach(el => {
+    el.innerText = t.title;
+  });
+
+  // Tüm p'leri bul ve ilkini değiştir
+  const p = document.querySelector("p");
+  if (p) p.innerText = t.subtitle;
+
+  // label'ları değiştir
+  const labels = document.querySelectorAll("label");
+  if (labels[0]) labels[0].innerText = t.code;
+  if (labels[1]) labels[1].innerText = t.carrier;
+
+  // buton
+  const btn = document.querySelector("button");
+  if (btn) btn.innerText = t.button;
+
+  // alt yazı
+  const note = document.querySelector(".note");
+  if (note) note.innerText = t.note;
+
+}, 100);
 </script>
 
 </body>
