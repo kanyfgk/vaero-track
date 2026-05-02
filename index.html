@@ -206,13 +206,13 @@ const texts = {
     note: "Every VAERO shipment is prepared with care. Tracking updates may take time depending on the carrier."
   },
   fa: {
-    title: "فضای خود را دنبال کنید.",
-    subtitle: "ارسال VAERO خود را ساده و شفاف پیگیری کنید.",
-    code: "شماره پیگیری",
-    carrier: "شرکت حمل‌ونقل",
-    button: "پیگیری",
-    note: "هر ارسال VAERO با دقت آماده می‌شود. به‌روزرسانی‌های پیگیری ممکن است بسته به شرکت حمل‌ونقل زمان ببرد."
-  },
+  title: "جریان خود را دنبال کنید.",
+  subtitle: "وضعیت ارسال VAERO را به‌صورت ساده و شفاف مشاهده کنید.",
+  code: "کد رهگیری",
+  carrier: "شرکت حمل‌ونقل",
+  button: "رهگیری",
+  note: "هر ارسال VAERO با دقت و توجه آماده می‌شود. به‌روزرسانی‌ها ممکن است بسته به شرکت حمل‌ونقل زمان ببرد."
+}
   ru: {
     title: "Отслеживайте свою атмосферу.",
     subtitle: "Следите за доставкой VAERO просто и понятно.",
@@ -224,6 +224,9 @@ const texts = {
 };
 
 const t = texts[lang] || texts.en;
+  if(lang === "fa"){
+  document.body.dir = "rtl";
+}
 const SUPABASE_URL = "https://wpfiszzxlwkmaqcqmywa.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_eTspasegbb8PbX2hEGMD5w_ggrWRuYN";
 
