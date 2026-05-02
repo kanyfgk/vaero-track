@@ -212,8 +212,8 @@ const texts = {
   carrier: "شرکت حمل‌ونقل",
   button: "رهگیری",
   note: "هر ارسال VAERO با دقت و توجه آماده می‌شود. به‌روزرسانی‌ها ممکن است بسته به شرکت حمل‌ونقل زمان ببرد."
-}
-  ru: {
+},
+ru: {
   title: "Контроль в пути.",
   subtitle: "Следите за доставкой VAERO спокойно и без лишнего шума.",
   code: "Номер отслеживания",
@@ -338,14 +338,17 @@ setTimeout(function(){
   if (labels[1]) labels[1].innerText = t.carrier;
 
   // buton
-  const btn = document.querySelector("button");
-  if (btn) btn.innerText = t.button;
+  const btn = document.getElementById("trackBtn");
+if (btn) btn.innerText = t.button;
 
   // alt yazı
   const note = document.querySelector(".note");
   if (note) note.innerText = t.note;
 
 }, 100);
+  document.getElementById("trackBtn").onclick = function(){
+  goToTracking();
+};
 </script>
 
 </body>
